@@ -3,10 +3,10 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { initializeUserBoard } from "../init-user-board";
-import connectDB from "../db";
 
-const mongooseInstance = await connectDB();
-const client = mongooseInstance.connection.getClient();
+import clientPromise from "./mongo-client";
+
+const client = await clientPromise;
 const db = client.db();
 
 export const auth = betterAuth({
