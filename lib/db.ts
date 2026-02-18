@@ -2,9 +2,6 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-//MongoDB connection cache setup using Mongoose in Next.js.
-//Next.js reloads files frequently (Hot Reloading).Without caching, every reload creates a new DB connection.
-
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -20,7 +17,6 @@ if (!global.mongoose) {
   global.mongoose = cached;
 }
 
-//connect to the db
 async function connectDB() {
   if (!MONGODB_URI) {
     throw new Error(
@@ -36,6 +32,7 @@ async function connectDB() {
     const opts = {
       bufferCommands: false,
     };
+
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
